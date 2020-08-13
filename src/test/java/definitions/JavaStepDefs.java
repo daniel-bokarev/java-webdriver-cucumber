@@ -17,5 +17,6 @@ public class JavaStepDefs {
         System.out.println("Does " + str1 + " match " + str2 + "? " + str1.equals(str2));
         System.out.println("Does " + str1 + " match " + str2 + "? " + str1.equalsIgnoreCase(str2));
         System.out.println(str1.contains(str2));
+        System.out.println();
     }
 }
