@@ -5,3 +5,5 @@ Feature: Java feature
   Scenario: Hello world
     And I say "Hello World!"
     And I perform actions with "var1" and "VAR1"
+    And I do homework for day 5
+    And I print url for "google" page
