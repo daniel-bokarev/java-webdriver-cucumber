@@ -7,3 +7,5 @@ Feature: Java feature
     And I perform actions with "var1" and "VAR1"
     And I do homework for day 5
     And I print url for "google" page
+    And I print if number 35 is positive
+    And I print 7 th day of week
