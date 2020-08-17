@@ -103,8 +103,42 @@ public class JavaStepDefs {
 
     @And("I print {string} day of the week")
     public void iPrintDayOfTheWeek(String day) {
-        String[] dayOfWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        int enteredDay = Integer.valueOf(day) - 1;
-        System.out.println(dayOfWeek[enteredDay]);
+        String[] daysOfWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        int enteredDay = Integer.parseInt(day) - 1;
+        System.out.println(daysOfWeek[enteredDay]);
+    }
+
+    @And("I print every {int} day of week")
+    public void iPrintEveryDayOfWeek(int every) {
+        String[] daysOfWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        int i = 1;
+        for (String day : daysOfWeek) {
+            if (i % every == 0) {
+                System.out.println(day);
+            }
+        i++;
+        }
+
+        System.out.println("----");
+
+        for (int j=1; j <= daysOfWeek.length; j++) {
+            if (j % every == 0) {
+                System.out.println(daysOfWeek[j-1]);
+            }
+        }
+    }
+
+    @And("I work with arrays")
+    public void iWorkWithArrays() {
+        String[] fruits = {"kiwi", "apple", "orange"};
+        for (String fruit : fruits) {
+            System.out.print(fruit + " ");
+        }
+
+        System.out.println("\n----");
+
+        for (int i = 0; i < fruits.length; i++) {
+            System.out.print(fruits[i] + " ");
+        }
     }
 }
