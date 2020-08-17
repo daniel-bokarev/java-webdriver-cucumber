@@ -3,6 +3,7 @@ package definitions;
 import cucumber.api.java.en.And;
 
 import java.lang.reflect.Array;
+import java.util.*;
 
 public class JavaStepDefs {
     @And("I say {string}")
@@ -134,11 +135,59 @@ public class JavaStepDefs {
         for (String fruit : fruits) {
             System.out.print(fruit + " ");
         }
-
-        System.out.println("\n----");
-
+        System.out.println();
         for (int i = 0; i < fruits.length; i++) {
             System.out.print(fruits[i] + " ");
         }
+
+        System.out.println("\n----");
+
+        List<Integer> listOfNums = new ArrayList<>();
+        listOfNums.add(1);
+        listOfNums.add(2);
+        listOfNums.add(3);
+        for (int i : listOfNums) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+        for (int i = 0; i < listOfNums.size(); i++) {
+            System.out.print(listOfNums.get(i) + " ");
+        }
+    }
+
+    @And("I work with maps")
+    public void iWorkWithMaps() {
+        Map<String, String> user = new HashMap<>();
+        user.put("username", "jdoe");
+        user.put("email", "noemail@noemail.example.com");
+        user.put("password", "1234");
+        System.out.println(user);
+
+        Map<String, String> admin = new LinkedHashMap<>();
+        admin.put("username", "jdoe");
+        admin.put("email", "noemail@noemail.example.com");
+        admin.put("password", "1234");
+        System.out.println(admin);
+
+        System.out.println(user.get("username"));
+
+        for (String key : admin.keySet()) {
+            System.out.println(key + ": " + admin.get(key));
+        }
+    }
+
+    @And("I do homework for {int}th day")
+    public void iDoHomeworkForThDay(int day) {
+        Map<String, String> info = new LinkedHashMap<>();
+        info.put("firstName", "John");
+        info.put("middleName", "George");
+        System.out.println(info);
+
+        String reverseFirst = info.get("middleName");
+        String reverseMiddle = info.get("firstName");
+        Map<String, String> reversedInfo = new LinkedHashMap<>();
+        reversedInfo.put("firstName", reverseFirst);
+        reversedInfo.put("middleName", reverseMiddle);
+        System.out.println(reversedInfo);
     }
 }
