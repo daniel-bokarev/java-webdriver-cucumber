@@ -100,4 +100,11 @@ public class JavaStepDefs {
                 System.out.println("We use Earth days");
         }
     }
+
+    @And("I print {string} day of the week")
+    public void iPrintDayOfTheWeek(String day) {
+        String[] dayOfWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        int enteredDay = Integer.valueOf(day) - 1;
+        System.out.println(dayOfWeek[enteredDay]);
+    }
 }
