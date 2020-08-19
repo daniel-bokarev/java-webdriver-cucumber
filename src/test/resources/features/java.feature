@@ -13,4 +13,5 @@ Feature: Java feature
 #    And I print every 3 day of week
 #    And I work with arrays
 #    And I work with maps
-    And I do homework for 6th day
+#    And I do homework for 6th day
+    And I do homework for seventh day

@@ -7,6 +7,8 @@ import org.openqa.selenium.By;
 import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.getDriver;
 
+import static org.assertj.core.api.Assertions.*;
+
 public class MarketStepDefs {
     @Given("I go to {string} page")
     public void iGoToPage(String page) {
@@ -55,5 +57,10 @@ public class MarketStepDefs {
             System.out.println("Password is displayed!");
         } else
             System.out.println("Password is not displayed");
+
+        //classwork
+        String pageResults = getDriver().findElement(By.xpath("//div[@id='quotePageResult']"))
+                .getText();
+        assertThat(pageResults).doesNotContain("12345");
     }
 }

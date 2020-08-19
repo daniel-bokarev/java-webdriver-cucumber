@@ -28,8 +28,8 @@ public class JavaStepDefs {
         int num1 = 13;
         int num2 = 10;
         float num3 = 10.0f;
-        System.out.println(num1/num2); //result is an integer
-        System.out.println(num1/num3); //result it a float
+        System.out.println(num1 / num2); //result is an integer
+        System.out.println(num1 / num3); //result it a float
         var sum = num1 + num2;
         var difference = num1 - num2;
         var quotient = num1 / num2;
@@ -57,8 +57,7 @@ public class JavaStepDefs {
     public void iPrintUrlForPage(String url) {
         if (url.equals("google")) {
             System.out.println("https://www.google.com");
-        }
-        else {
+        } else {
             System.out.println("This url is missing");
         }
     }
@@ -67,8 +66,7 @@ public class JavaStepDefs {
     public void iPrintIfNumberIsPositive(int num) {
         if (num >= 0) {
             System.out.println("Number is positive: " + num);
-        }
-        else {
+        } else {
             System.out.println("Number is negative: " + num);
         }
     }
@@ -117,14 +115,14 @@ public class JavaStepDefs {
             if (i % every == 0) {
                 System.out.println(day);
             }
-        i++;
+            i++;
         }
 
         System.out.println("----");
 
-        for (int j=1; j <= daysOfWeek.length; j++) {
+        for (int j = 1; j <= daysOfWeek.length; j++) {
             if (j % every == 0) {
-                System.out.println(daysOfWeek[j-1]);
+                System.out.println(daysOfWeek[j - 1]);
             }
         }
     }
@@ -189,5 +187,70 @@ public class JavaStepDefs {
         reversedInfo.put("firstName", reverseFirst);
         reversedInfo.put("middleName", reverseMiddle);
         System.out.println(reversedInfo);
+        System.out.println("----");
+
+        //classwork
+        swap(10, 5);
+        System.out.println(info);
+        swapMap(info);
+    }
+
+    //swap
+    void swap(int a, int b) {
+        System.out.println("Swap Method! Before:");
+        System.out.println("a: " + a);
+        System.out.println("b: " + b);
+
+        int temp = a;
+        a = b;
+        b = temp;
+
+        System.out.println("After:");
+        System.out.println("a: " + a);
+        System.out.println("b: " + b);
+    }
+
+    //swapMap
+    void swapMap(Map<String, String> info) {
+        String temp = info.get("firstName");
+        info.put("firstName", info.get("middleName"));
+        info.put("middleName", temp);
+        System.out.println(info);
+    }
+
+    @And("I do homework for seventh day")
+    public void iDoHomeworkForSeventhDay() {
+        //swap 3rd and 5th array element
+        int[] nums = {5, 2, 9, 7, 3};
+        System.out.print("\n" + Arrays.toString(nums));
+        swapArray(nums, 2, 4);
+
+        //accepts integer number and returns
+        divisibleInt(3);
+        divisibleInt(4);
+        divisibleInt(12);
+        divisibleInt(15);
+        divisibleInt(0); //would clarify the expectation
+    }
+
+    //swap 2 array elements
+    void swapArray(int arr[], int a, int b) {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
+        System.out.println("\n" + Arrays.toString(arr));
+    }
+
+    //accepts integer number and returns
+    void divisibleInt(int a) {
+        if (a % 3 == 0 && a % 4 == 0) {
+            System.out.println("divisible by 3 and 4");
+        } else if (a % 3 == 0) {
+            System.out.println("divisible by 3");
+        } else if (a % 4 == 0) {
+            System.out.println("divisible by 4");
+        } else {
+            System.out.println("Provided integer is not divided by 3 or 4");
+        }
     }
 }
