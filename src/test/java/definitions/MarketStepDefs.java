@@ -3,6 +3,9 @@ package definitions;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import org.openqa.selenium.By;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.getDriver;
@@ -16,8 +19,15 @@ public class MarketStepDefs {
             case "quote":
                 getDriver().get("https://skryabin.com/market/quote.html");
                 break;
+            case "yahoo":
+                getDriver().get("https://www.yahoo.com");
+                break;
+            case "usps":
+                getDriver().get("https://www.usps.com");
+                break;
             default:
                 System.out.println("URL is not found in our library! " + page);
+                break;
         }
     }
 
@@ -62,5 +72,16 @@ public class MarketStepDefs {
         String pageResults = getDriver().findElement(By.xpath("//div[@id='quotePageResult']"))
                 .getText();
         assertThat(pageResults).doesNotContain("12345");
+    }
+
+    @And("I get logs")
+    public void iGetLogs() throws InterruptedException {
+        Thread.sleep(1000);
+        LogEntries logs = getDriver().manage().logs().get(LogType.BROWSER);
+        System.out.println("Logs >>>");
+        for (LogEntry log : logs) {
+            System.out.println(log);
+        }
+        System.out.println("Logs ended ----");
     }
 }

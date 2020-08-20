@@ -8,3 +8,8 @@
       And I fill out required fields
       And I submit the form
       And I verify required fields
+
+    @market2
+    Scenario: Logs
+      Given I go to "yahoo" page
+      And I get logs
