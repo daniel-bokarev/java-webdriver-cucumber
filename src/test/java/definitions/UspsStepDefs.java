@@ -107,17 +107,36 @@ public class UspsStepDefs {
 
     @When("I go to {string} tab")
     public void iGoToTab(String tab) {
-        getDriver().findElement(By.xpath("//li[@class='menuheader']/a[contains(@href,'faq')]")).click();
+        switch (tab) {
+            case "Help":
+                getDriver().findElement(By.xpath("//li[@class='menuheader']/a[contains(@href,'faq')]")).click();
+                break;
+            default:
+                System.out.println("No such tab found: " + tab);
+        }
     }
 
     @And("I perform {string} help search")
     public void iPerformHelpSearch(String search) {
-        getDriver().findElement(By.xpath("//input[@id='135:0']")).sendKeys(search);
+        getDriver().findElement(By.xpath("//input[contains(@class,'search-field')]")).sendKeys(search);
+        getDriver().findElement(By.xpath("//button[contains(@class,'search-button')]")).click();
     }
 
     @Then("I verify that no results of {string} available in help search")
     public void iVerifyThatNoResultsOfAvailableInHelpSearch(String search) {
         String actualResult = getDriver().findElement(By.xpath("//div[@class='resultsWrapper']")).getText();
         assertThat(actualResult).doesNotContain(search);
+    }
+
+    @When("I navigate to Find a Location page")
+    public void iNavigateToFindALocationPage() {
+        getDriver().findElement(By.xpath("//a[@id='link-locator']")).click();
+    }
+
+    @And("I filter by {string} location types, {string} services, {string} available services")
+    public void iFilterByLocationTypesServicesAvailableServices(String type, String service, String available) {
+        WebElement typeEntered = getDriver().findElement(By.xpath("//button[contains(text(),'" + type + "')]"));
+
+        Select select = new Select(typeEntered);
     }
 }
