@@ -231,6 +231,10 @@ public class JavaStepDefs {
         divisibleInt(12);
         divisibleInt(15);
         divisibleInt(0); //would clarify the expectation
+
+        System.out.println("----");
+
+        isDivBy3and4(3);
     }
 
     //swap 2 array elements
@@ -252,5 +256,120 @@ public class JavaStepDefs {
         } else {
             System.out.println("Provided integer is not divided by 3 or 4");
         }
+    }
+
+    //classwork for above
+    String isDivBy3and4(int num) {
+
+        return "";
+    }
+
+    @And("I write a function that prints all numbers from {int} up to n")
+    public void iWriteAFunctionThatPrintsAllNumbersFromUpToN(int arg0) {
+        printAllNumbers(5);
+        System.out.println();
+        printAllNumbers(10);
+    }
+
+    void printAllNumbers(int n) {
+        for (int i = 0; i <= n; i++) {
+            System.out.print(i + " ");
+        }
+    }
+
+    @And("I write a function that supports also negative numbers")
+    public void iWriteAFunctionThatSupportsAlsoNegativeNumbers() {
+        System.out.println();
+        printNegativeNumbersToo(-5);
+        System.out.println();
+        printNegativeNumbersToo(-10);
+    }
+
+    void printNegativeNumbersToo(int n) {
+        for (int i = 0; i >= n; i--) {
+            System.out.print(i + " ");
+        }
+    }
+
+    @And("I write a function that prints all integer array")
+    public void iWriteAFunctionThatPrintsAllIntegerArray() {
+        System.out.println();
+        int[] test = {1, 2, 3};
+        printIntegerArray(test);
+
+    }
+
+    void printIntegerArray(int[] num) {
+        for (int n : num) {
+            System.out.print(n + " ");
+        }
+    }
+
+    @And("I write a function that prints all even numbers from integer array")
+    public void iWriteAFunctionThatPrintsAllEvenNumbersFromIntegerArray() {
+        System.out.println();
+        int[] evenNumbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        printEvenNumbersInArray(evenNumbers);
+    }
+
+    void printEvenNumbersInArray(int[] num) {
+        System.out.print("Even numbers: ");
+        for (int i = 0; i < num.length; i++) {
+            if (num[i] % 2 == 0) {
+                System.out.print(num[i] + " ");
+            }
+        }
+
+    }
+
+    @And("I write a function that checks if array is empty")
+    public void iWriteAFunctionThatChecksIfArrayIsEmpty() {
+        System.out.println();
+        String[] strings = {"Test", "One", "Two"};
+        String[] strings2 = {};
+
+        isArrayEmpty(strings);
+        isArrayEmpty(strings2);
+    }
+
+    void isArrayEmpty(String[] arr) {
+        if (arr.length == 0) {
+            System.out.println("Array is empty!");
+        }
+    }
+
+    @And("I write a function for FizzBuzz challenge")
+    public void iWriteAFunctionForFizzBuzzChallenge() {
+        System.out.println();
+        fizzBuzz(20);
+    }
+
+    void fizzBuzz(int n) {
+        for (int i = 1; i <= n; i++) {
+            if (i % 3 == 0 && i % 5 == 0) {
+                System.out.print("FizzBuzz ");
+            } else if (i % 3 == 0) {
+                System.out.print("Fizz ");
+            } else if (i % 5 == 0) {
+                System.out.print("Buzz ");
+            } else {
+                System.out.print(i + " ");
+            }
+        }
+    }
+
+    @And("I write a function that checks if array contains another element")
+    public void iWriteAFunctionThatChecksIfArrayContainsAnotherElement() {
+        System.out.println();
+        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 100, 4000, 12};
+        System.out.println(checkElementInArray(arr, 12));
+        System.out.println(checkElementInArray(arr, 10));
+    }
+
+    boolean checkElementInArray(int[] arr, int n) {
+        for (int i : arr) {
+            if (i == n) return true;
+        }
+        return false;
     }
 }
