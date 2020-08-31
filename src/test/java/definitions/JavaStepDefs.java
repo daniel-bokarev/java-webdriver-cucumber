@@ -327,15 +327,30 @@ public class JavaStepDefs {
         System.out.println();
         String[] strings = {"Test", "One", "Two"};
         String[] strings2 = {};
-
         isArrayEmpty(strings);
         isArrayEmpty(strings2);
+
+        int[] arr = {1, 2, 3};
+        int[] arr2 = {};
+        int[] arr3 = null;
+        System.out.println(isArrayEmptyBoolean(arr));
+        System.out.println(isArrayEmptyBoolean(arr2));
+        System.out.println(isArrayEmptyBoolean(arr3));
     }
 
     void isArrayEmpty(String[] arr) {
         if (arr.length == 0) {
             System.out.println("Array is empty!");
         }
+    }
+
+    boolean isArrayEmptyBoolean(int[] arr) {
+        System.out.println("Is array empty?: ");
+        // (arr != null && arr.length > 0) false/true
+        if (arr == null || arr.length == 0) {
+            return true;
+        }
+        return false;
     }
 
     @And("I write a function for FizzBuzz challenge")
@@ -371,5 +386,29 @@ public class JavaStepDefs {
             if (i == n) return true;
         }
         return false;
+    }
+
+    @And("I write a function that reverses string")
+    public void iWriteAFunctionThatReversesString() {
+        String str = "Mountain View";
+        reverseString(str);
+        System.out.println(reverseStringReturn(str));
+    }
+
+    void reverseString(String str) {
+        System.out.println("Reverse " + str);
+        for (int i = str.length() - 1; i >= 0; i--) {
+            System.out.print(str.charAt(i));
+        }
+        System.out.println();
+    }
+
+    String reverseStringReturn(String str) {
+        System.out.println("Return reversed " + str);
+        String reversed = "";
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversed = reversed + str.charAt(i);
+        }
+        return reversed;
     }
 }

@@ -184,4 +184,31 @@ public class UspsStepDefs {
         By phoneWrapper = By.xpath("//div[@class='phone-wrapper']");
         wait.until(ExpectedConditions.visibilityOfElementLocated(phoneWrapper));
     }
+
+    @When("I go to {string} under {string}")
+    public void iGoToUnder(String providedSubMenu, String providedMenuTitle) {
+        WebElement menuTitle = getDriver().findElement(By.xpath("//a[@class='menuitem'][(text()='" + providedMenuTitle + "')]"));
+        WebElement subMenu = getDriver().findElement(By.xpath("//a[(text()='" + providedSubMenu + "')]"));
+        new Actions(getDriver())
+                .moveToElement(menuTitle)
+                .click(subMenu)
+                .perform();
+    }
+
+    @And("I search for {string}")
+    public void iSearchFor(String address) {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='address']")));
+        getDriver().findElement(By.xpath("//input[@id='address']")).sendKeys(address);
+        getDriver().findElement(By.xpath("//button[contains(@class,'field-icon-search')]")).click();
+
+    }
+
+    @And("I click {string} on the map")
+    public void iClickOnTheMap(String button) {
+        new WebDriverWait(getDriver(), 5)
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='route-table-toggle'][text()='" + button + " ']")));
+        getDriver().findElement(By.xpath("//a[@class='route-table-toggle'][text()='" + button +  " ']")).click();
+
+    }
 }
