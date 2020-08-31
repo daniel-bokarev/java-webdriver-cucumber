@@ -25,6 +25,12 @@ public class MarketStepDefs {
             case "usps":
                 getDriver().get("https://www.usps.com");
                 break;
+            case "converter":
+                getDriver().get("https://www.unitconverters.net");
+                break;
+            case "calculator":
+                getDriver().get("https://www.calculator.net");
+                break;
             default:
                 System.out.println("URL is not found in our library! " + page);
                 break;
@@ -83,5 +89,42 @@ public class MarketStepDefs {
             System.out.println(log);
         }
         System.out.println("Logs ended ----");
+    }
+
+    @And("I {string} third party agreement")
+    public void iThirdPartyAgreement(String action) {
+        //button[@id='thirdPartyButton']
+        getDriver().findElement(By.xpath("//button[@id='thirdPartyButton']")).click();
+        if (action.equals("accept")) {
+            getDriver().switchTo().alert().accept();
+        } else if (action.equals("dismiss")) {
+            getDriver().switchTo().alert().dismiss();
+        } else {
+            throw new RuntimeException("Incorrect action: " + action);
+        }
+    }
+
+    @And("I fill out {string} name and {string} phone contact")
+    public void iFillOutNameAndPhoneContact(String name, String phone) {
+        getDriver().switchTo().frame("additionalInfo");
+        getDriver().findElement(By.xpath("//input[@id='contactPersonName']")).sendKeys(name);
+        getDriver().findElement(By.xpath("//input[@id='contactPersonPhone']")).sendKeys(phone);
+        getDriver().switchTo().defaultContent();
+    }
+
+    @And("I verify document list contains {string}")
+    public void iVerifyDocumentListContains(String doc) {
+        String originalWindow = getDriver().getWindowHandle();
+        getDriver().findElement(By.xpath("//button[contains(@onclick, 'new')]")).click();
+
+        //switch to new window
+        for (String handle : getDriver().getWindowHandles()) {
+            getDriver().switchTo().window(handle);
+        }
+        String actualResult = getDriver().findElement(By.xpath("//ul")).getText();
+        assertThat(actualResult).contains(doc);
+
+        //switch back
+        getDriver().switchTo().window(originalWindow);
     }
 }
