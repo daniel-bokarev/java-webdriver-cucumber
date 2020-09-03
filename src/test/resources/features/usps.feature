@@ -20,9 +20,7 @@
     Scenario: Verify location
       Given I go to "usps" page
       When I perform "Free Boxes" search
-      And I wait for 2 sec
       And I set "Mail & Ship" in filters
-      And I wait for 2 sec
       Then I verify that "7" results found
       When I select "Priority Mail | USPS" in results
       And I click "Ship Now" button

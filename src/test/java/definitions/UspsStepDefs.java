@@ -5,6 +5,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.assertj.core.api.AbstractStringAssert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -13,8 +14,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
-import static support.TestContext.getDriver;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static support.TestContext.*;
 
 public class UspsStepDefs {
     @When("I go to Lookup ZIP page by address")
@@ -86,19 +88,31 @@ public class UspsStepDefs {
 
     @And("I set {string} in filters")
     public void iSetInFilters(String filter) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), 5);
         WebElement spinner = getDriver().findElement(By.xpath("//div[@class='white-spinner-container']"));
-        wait.until(ExpectedConditions.invisibilityOf(spinner));
-        getDriver().findElement(By.xpath("//a[@class='dn-attr-a'][text()='" + filter + "']")).click();
-        wait.until(ExpectedConditions.invisibilityOf(spinner));
+//        wait.until(ExpectedConditions.invisibilityOf(spinner));
+
+        //JavaScript click
+        WebElement filterElement = getDriver().findElement(By.xpath("//a[@class='dn-attr-a'][text()='" + filter + "']"));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", filterElement);
+
+//        getDriver().findElement(By.xpath("//a[@class='dn-attr-a'][text()='" + filter + "']")).click();
+        getWait().until(ExpectedConditions.invisibilityOf(spinner));
     }
 
     @Then("I verify that {string} results found")
     public void iVerifyThatResultsFound(String expectedCount) {
         int expectedSize = Integer.parseInt(expectedCount);
+
+        String heading = getDriver().findElement(By.xpath("//span[@id='searchResultsHeading']")).getText();
+        String headingCount = heading.replaceAll("\\D*", "");
+        int parsedHeadingCount = Integer.parseInt(headingCount);
+
         List<WebElement> results = getDriver().findElements(By.xpath("//ul[@id='records']//li"));
         int actualSize = results.size();
+
         assertThat(actualSize).isEqualTo(expectedSize);
+        assertThat(actualSize).isEqualTo(parsedHeadingCount);
     }
 
     @When("I select {string} in results")
@@ -108,9 +122,12 @@ public class UspsStepDefs {
     }
 
     @And("I click {string} button")
-    public void iClickButton(String buttonTitle) {
-        getDriver().findElement(By.xpath("//a[contains(text(),'" + buttonTitle + "')]")).click();
-        
+    public void iClickButton(String buttonTitle) throws InterruptedException {
+        int numOfWin = getDriver().getWindowHandles().size();
+        while (getDriver().getWindowHandles().size() < numOfWin + 1) {
+            getDriver().findElement(By.xpath("//a[contains(text(),'" + buttonTitle + "')]")).click();
+            Thread.sleep(100);
+        }
     }
 
     @Then("I validate that Sign In is required")
@@ -119,9 +136,14 @@ public class UspsStepDefs {
         for (String handle : getDriver().getWindowHandles()) {
             getDriver().switchTo().window(handle);
         }
-        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.titleContains("Sign In"));
-        WebElement username = getDriver().findElement(By.xpath("//input[@id='username']"));
-        assertThat(username.isDisplayed()).isTrue();
+        WebDriverWait wait = new WebDriverWait(getDriver(), 5);
+        wait.until(ExpectedConditions.titleContains("Sign In"));
+
+//        WebElement username = getDriver().findElement(By.xpath("//input[@id='username']"));
+//        assertThat(username.isDisplayed()).isTrue();
+        getDriver().findElement(By.xpath("//button[@id='btn-submit']")).click();
+        WebElement errorElement = getDriver().findElement(By.xpath("//span[@id='error-password']"));
+        wait.until(ExpectedConditions.textToBePresentInElement(errorElement, "required"));
         getDriver().switchTo().window(originalWindow);
     }
 
@@ -189,7 +211,7 @@ public class UspsStepDefs {
     public void iGoToUnder(String providedSubMenu, String providedMenuTitle) {
         WebElement menuTitle = getDriver().findElement(By.xpath("//a[@class='menuitem'][(text()='" + providedMenuTitle + "')]"));
         WebElement subMenu = getDriver().findElement(By.xpath("//a[(text()='" + providedSubMenu + "')]"));
-        new Actions(getDriver())
+        getActions()
                 .moveToElement(menuTitle)
                 .click(subMenu)
                 .perform();

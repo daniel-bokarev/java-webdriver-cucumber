@@ -6,11 +6,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static support.TestContext.getDriver;
 
 import static org.assertj.core.api.Assertions.*;
+import static support.TestContext.*;
 
 public class MarketStepDefs {
     @Given("I go to {string} page")
@@ -31,6 +34,9 @@ public class MarketStepDefs {
             case "calculator":
                 getDriver().get("https://www.calculator.net");
                 break;
+            case "ups":
+                getDriver().get("https://www.ups.com/us/en/Home.page");
+                break;
             default:
                 System.out.println("URL is not found in our library! " + page);
                 break;
@@ -45,16 +51,18 @@ public class MarketStepDefs {
 
     @And("I fill out required fields")
     public void iFillOutRequiredFields() throws InterruptedException {
+        Map<String, String> user = getData("user");
+
         getDriver().findElement(By.xpath("//input[@name='username']"))
-                .sendKeys("test");
+                .sendKeys(user.get("username"));
+        getDriver().findElement(By.xpath("//input[@id='name']"))
+                .sendKeys(user.get("firstName"));
         getDriver().findElement(By.xpath("//input[@name='email']"))
-                .sendKeys("email@no.example.com");
+                .sendKeys(user.get("email"));
         getDriver().findElement(By.xpath("//input[@id='password']"))
                 .sendKeys("12345");
         getDriver().findElement(By.xpath("//input[@id='confirmPassword']"))
                 .sendKeys("12345");
-        getDriver().findElement(By.xpath("//input[@name='username']"))
-                .sendKeys("Daniel Test");
         getDriver().findElement(By.xpath("//input[@name='agreedToPrivacyPolicy']"))
                 .click();
     }
@@ -67,6 +75,7 @@ public class MarketStepDefs {
 
     @And("I verify required fields")
     public void iVerifyRequiredFields() {
+        Map<String, String> user = getData("user");
         String password = getDriver().findElement(By.xpath("//b[@name='password']"))
                 .getText();
         if (password == "12345") {
@@ -75,9 +84,9 @@ public class MarketStepDefs {
             System.out.println("Password is not displayed");
 
         //classwork
-        String pageResults = getDriver().findElement(By.xpath("//div[@id='quotePageResult']"))
-                .getText();
+        String pageResults = getDriver().findElement(By.xpath("//div[@id='quotePageResult']")).getText();
         assertThat(pageResults).doesNotContain("12345");
+        assertThat(pageResults).containsIgnoringCase(user.get("username"));
     }
 
     @And("I get logs")

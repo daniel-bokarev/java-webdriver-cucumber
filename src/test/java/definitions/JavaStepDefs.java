@@ -411,4 +411,61 @@ public class JavaStepDefs {
         }
         return reversed;
     }
+
+    @And("I do homework for part a")
+    public void iDoHomeworkForPartA() {
+//        User inputs two numbers which are divided by 5.
+//        If a number is in a range of 1..10 - print it saying it is in the range of 1 from 10.
+//        If a number is in the range of 10..20 - print it saying it's in the range of 10..20.
+        printRangeOfNumbers(100, 10);
+    }
+
+    void printRangeOfNumbers (int x, int y) {
+        int dividedX = x / 5;
+        int dividedY = y / 5;
+        int[] arr = {dividedX, dividedY};
+
+        System.out.println("Result: ");
+
+    }
+
+    @And("I write a java program to add {int} numbers and it will print addition")
+    public void iWriteAJavaProgramToAddNumbersAndItWillPrintAddition(int arg0) {
+        printAddition(3, 0);
+    }
+
+    void printAddition (int x, int y) {
+        int z = x + y;
+        System.out.println(x + " + " + y + " = " + z);
+    }
+
+    @And("I reverse every third character of a string")
+    public void iReverseEveryThirdCharacterOfAString() {
+//        (Example: "WebDriver" => "vDW")
+        String str = "Daniel";
+
+        System.out.println(str.length());
+
+//        for (int i = str.length() - 1; i >= 0; i--) {
+//            System.out.print(str.charAt(i));
+//            if (i % 2 == 0) {
+//                System.out.println(str.charAt(i));
+//            }
+
+        for (int i = 0; i <= str.length(); i++) {
+            System.out.print(str.charAt(i));
+
+            }
+
+    }
+
+//    String reverseEveryThirdChar (String str) {
+//
+//    }
+
+    @And("I speak like Yoda - reverse words in a sentence")
+    public void iSpeakLikeYodaReverseWordsInASentence() {
+//        (Example: "I am Automation Engineer" => "Engineer Automation am I") (hint - method .split(" "))
+
+    }
 }

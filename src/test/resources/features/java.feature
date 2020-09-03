@@ -25,4 +25,12 @@ Feature: Java feature
 #    And I write a function that checks if array is empty
 #    And I write a function that checks if array contains another element
 #    And I write a function for FizzBuzz challenge
-    And I write a function that reverses string
+#    And I write a function that reverses string
+
+  @java3
+  Scenario: Day 10 homework
+    And I do homework for part a
+    And I write a java program to add 2 numbers and it will print addition
+    And I reverse every third character of a string
+    And I speak like Yoda - reverse words in a sentence
+
