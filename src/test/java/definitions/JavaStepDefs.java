@@ -595,4 +595,28 @@ public class JavaStepDefs {
         }
         return false;
     }
+
+    @And("I write a function that finds if word is palindrome")
+    public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
+
+
+    }
+
+    @And("I write a function that counts number of each character in a string")
+    public void iWriteAFunctionThatCountsNumberOfEachCharacterInAString() {
+        System.out.println("\n" + "Count characters in a string: ");
+        String str = "Daniel Test";
+        System.out.println(countChar(str));
+    }
+
+    int countChar(String str) {
+        int count = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != ' ') {
+                count++;
+            }
+        }
+        return count;
+    }
+
 }
