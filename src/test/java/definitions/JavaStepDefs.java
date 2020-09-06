@@ -1,6 +1,7 @@
 package definitions;
 
 import cucumber.api.java.en.And;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -338,12 +339,14 @@ public class JavaStepDefs {
         System.out.println(isArrayEmptyBoolean(arr3));
     }
 
+    // O(1)
     void isArrayEmpty(String[] arr) {
         if (arr.length == 0) {
             System.out.println("Array is empty!");
         }
     }
 
+    // O(1)
     boolean isArrayEmptyBoolean(int[] arr) {
         System.out.println("Is array empty?: ");
         // (arr != null && arr.length > 0) false/true
@@ -359,6 +362,7 @@ public class JavaStepDefs {
         fizzBuzz(20);
     }
 
+    // O(n)
     void fizzBuzz(int n) {
         for (int i = 1; i <= n; i++) {
             if (i % 3 == 0 && i % 5 == 0) {
@@ -376,14 +380,19 @@ public class JavaStepDefs {
     @And("I write a function that checks if array contains another element")
     public void iWriteAFunctionThatChecksIfArrayContainsAnotherElement() {
         System.out.println();
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 100, 4000, 12};
-        System.out.println(checkElementInArray(arr, 12));
-        System.out.println(checkElementInArray(arr, 10));
+        Integer[] arrI = {1, 2, 3, 4, 5, 6, 7, 8, 100, 4000, 12};
+        String[] arrS = {"kiwi", "apple", "orange"};
+        System.out.println(checkElementInArray(arrI, 12));
+        System.out.println(checkElementInArray(arrI, 10));
+        System.out.println(checkElementInArray(arrS, "apple"));
+        System.out.println(checkElementInArray(arrS, "banana"));
+
     }
 
-    boolean checkElementInArray(int[] arr, int n) {
-        for (int i : arr) {
-            if (i == n) return true;
+    // O(n)
+    boolean checkElementInArray(Object[] arr, Object n) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].equals(n)) return true;
         }
         return false;
     }
@@ -395,6 +404,7 @@ public class JavaStepDefs {
         System.out.println(reverseStringReturn(str));
     }
 
+    // O(n)
     void reverseString(String str) {
         System.out.println("Reverse " + str);
         for (int i = str.length() - 1; i >= 0; i--) {
@@ -403,6 +413,7 @@ public class JavaStepDefs {
         System.out.println();
     }
 
+    // O(n)
     String reverseStringReturn(String str) {
         System.out.println("Return reversed " + str);
         String reversed = "";
@@ -420,7 +431,7 @@ public class JavaStepDefs {
         printRangeOfNumbers(100, 10);
     }
 
-    void printRangeOfNumbers (int x, int y) {
+    void printRangeOfNumbers(int x, int y) {
         int dividedX = x / 5;
         int dividedY = y / 5;
         int[] arr = {dividedX, dividedY};
@@ -434,7 +445,7 @@ public class JavaStepDefs {
         printAddition(3, 0);
     }
 
-    void printAddition (int x, int y) {
+    void printAddition(int x, int y) {
         int z = x + y;
         System.out.println(x + " + " + y + " = " + z);
     }
@@ -452,11 +463,6 @@ public class JavaStepDefs {
 //                System.out.println(str.charAt(i));
 //            }
 
-        for (int i = 0; i <= str.length(); i++) {
-            System.out.print(str.charAt(i));
-
-            }
-
     }
 
 //    String reverseEveryThirdChar (String str) {
@@ -466,6 +472,127 @@ public class JavaStepDefs {
     @And("I speak like Yoda - reverse words in a sentence")
     public void iSpeakLikeYodaReverseWordsInASentence() {
 //        (Example: "I am Automation Engineer" => "Engineer Automation am I") (hint - method .split(" "))
+        String[] arr = {"I", "am", "Automation", "Engineer"};
+        for (String string : arr) {
+            System.out.println(string + " ");
 
+        }
+    }
+
+    @And("I write a function to find the largest element in an array and test it")
+    public void iWriteAFunctionToFindTheLargestElementInAnArrayAndTestIt() {
+        System.out.println();
+        int[] arrI = {1, 2, 3, 4, 5, 6, 7, 8, 100, 4000, 12};
+        int[] arrN = {-3, -4, -5, -6, -7, -8, -100, -4000, -12};
+        System.out.println(maxNumber(arrI));
+        System.out.println(maxNumber(arrN));
+    }
+
+    // O(n)
+    int maxNumber(int arr[]) {
+        int max = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (max < arr[i]) {
+                max = arr[i];
+            }
+        }
+        return max;
+    }
+
+    @And("I write a function that reverses string without extra string variable")
+    public void iWriteAFunctionThatReversesStringWithoutExtraStringVariable() {
+        System.out.println(getReversedNoVar("Hello"));
+    }
+
+    String getReversedNoVar(String str) {
+        for (int i = str.length() - 1; i >= 0; i--) {
+            str += str.charAt(i);
+        }
+        return str.substring(str.length() / 2);
+    }
+
+    @And("I sort an array")
+    public void iSortAnArray() {
+        int[] arr = {5, 8, 7, 5, 1};
+        System.out.println(Arrays.toString(sort(arr)));
+    }
+
+    // O(n2)
+    int[] sort(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+
+        return arr;
+    }
+
+    @And("I sort an array order by desc")
+    public void iSortAnArrayOrderByDesc() {
+        int[] arr = {5, 8, 7, 5, 1, 10, 0};
+        System.out.println(Arrays.toString(sortByDesc(arr)));
+    }
+
+    // O(n2)
+    int[] sortByDesc(int[] arr) {
+        for (int i = arr.length - 1; i >= 0; i--) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        return arr;
+    }
+
+    @And("I write a function that find {int} max numbers in an array")
+    public void iWriteAFunctionThatFindMaxNumbersInAnArray(int arg0) {
+        System.out.println("2 max numbers: ");
+        int[] arr = {5, 8, 7, 5, 1, 10, 0};
+        System.out.println(getMaxNums(arr));
+    }
+
+    Object getMaxNums(int[] arr) {
+        for (int i = arr.length - 1; i >= 0; i--) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        int maxNum = arr[0];
+        int maxNum2 = arr[1];
+        String maxNumsString = String.valueOf(maxNum) + " and " + String.valueOf(maxNum2);
+        System.out.println(Arrays.toString(arr));
+        return maxNumsString;
+    }
+
+    @And("I write a function that finds if array contains duplicates")
+    public void iWriteAFunctionThatFindsIfArrayContainsDuplicates() {
+        System.out.println("\n" + "Array contains duplicates: ");
+        int[] arr = {5, 8, 7, 5, 1, 10, 0};
+        System.out.println(containsDuplicates(arr));
+
+    }
+
+    boolean containsDuplicates(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] == arr[j]) {
+                    System.out.println(arr[i] + " is duplicated");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

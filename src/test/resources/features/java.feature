@@ -26,6 +26,10 @@ Feature: Java feature
 #    And I write a function that checks if array contains another element
 #    And I write a function for FizzBuzz challenge
 #    And I write a function that reverses string
+#    And I write a function to find the largest element in an array and test it
+#    And I write a function that reverses string without extra string variable
+#    And I sort an array
+#    And I sort an array order by desc
 
   @java3
   Scenario: Day 10 homework
@@ -34,3 +38,9 @@ Feature: Java feature
     And I reverse every third character of a string
     And I speak like Yoda - reverse words in a sentence
 
+  @java4
+  Scenario: Day 11 homework
+    And I write a function that find 2 max numbers in an array
+    And I write a function that finds if array contains duplicates
+    And I write a function that finds if word is palindrome
+    And I write a function that counts number of each character in a string

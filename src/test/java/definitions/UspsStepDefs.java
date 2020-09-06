@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.assertj.core.api.AbstractStringAssert;
+import org.assertj.core.data.Percentage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -13,7 +14,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static support.TestContext.*;
@@ -219,18 +224,67 @@ public class UspsStepDefs {
 
     @And("I search for {string}")
     public void iSearchFor(String address) {
-        WebDriverWait wait = new WebDriverWait(getDriver(), 5);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='address']")));
         getDriver().findElement(By.xpath("//input[@id='address']")).sendKeys(address);
         getDriver().findElement(By.xpath("//button[contains(@class,'field-icon-search')]")).click();
 
     }
 
     @And("I click {string} on the map")
-    public void iClickOnTheMap(String button) {
-        new WebDriverWait(getDriver(), 5)
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@class='route-table-toggle'][text()='" + button + " ']")));
-        getDriver().findElement(By.xpath("//a[@class='route-table-toggle'][text()='" + button +  " ']")).click();
+    public void iClickOnTheMap(String text) {
+        WebElement overlay = getDriver().findElement(By.xpath("//div[@id='eddm_overlay-progress']"));
+        getWait().until(ExpectedConditions.visibilityOf(overlay));
+        getWait(10).until(ExpectedConditions.invisibilityOf(overlay));
+        getDriver().findElement(By.xpath("//a[@class='route-table-toggle'][contains(text(),'" + text + "')]")).click();
+    }
 
+    @When("I click {string} on the table")
+    public void iClickOnTheTable(String text) {
+        getDriver().findElement(By.xpath("//div[@id='route-table']//a[contains(text(),'" + text + "')]")).click();
+    }
+
+    @And("I close modal window")
+    public void iCloseModalWindow() {
+        getDriver().findElement(By.xpath("//div[@id='modal-box-closeModal']")).click();
+    }
+
+    @Then("I verify that summary of all rows of Cost column is equal Approximate Cost in Order Summary")
+    public void iVerifyThatSummaryOfAllRowsOfCostColumnIsEqualApproximateCostInOrderSummary() throws ParseException {
+
+        String totalCountString = getDriver().findElement(By.xpath("//a[contains(@class, 'totalsArea')]")).getText();
+        int totalCount = Integer.parseInt(totalCountString.replaceAll("\\D*", ""));
+        By costListSelector = By.xpath("//td[@idx='7']");
+        List<WebElement> costList = getDriver().findElements(costListSelector);
+        System.out.println("Expected elemnts size: " + totalCount);
+
+        //dealing with infinite scroll
+        while (costList.size() < totalCount) {
+            System.out.println("Actual elements size: " + costList.size());
+            int lastIndex = costList.size() - 1;
+            getActions().moveToElement(costList.get(lastIndex)).perform();
+            costList = getDriver().findElements(costListSelector);
+        }
+//        getWait().until(ExpectedConditions.numberOfElementsToBe(costListSelector, totalCount));
+        System.out.println("Actual elements size: " + costList.size());
+
+//        int lastIndex = costList.size() - 1;
+//        getActions().moveToElement(costList.get(lastIndex)).perform();
+//        getWait().until(ExpectedConditions.numberOfElementsToBe(costListSelector, totalCount));
+
+        Locale locale = new Locale("en", "US");
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(locale);
+        double actualTotal = 0;
+        for (WebElement cost : costList) {
+//            String costString = cost.getText().replace("$", "");
+//            double costTotal = Double.parseDouble(costString);
+            double costTotal = formatter.parse(cost.getText()).doubleValue();
+            actualTotal += costTotal;
+        }
+        System.out.println("Actual total: " + actualTotal);
+
+        String expectedTotalString = getDriver().findElement(By.xpath("//span[@class='approx-cost']")).getText();
+        double expectedTotal = Double.parseDouble(expectedTotalString);
+        System.out.println("Expected total: " + expectedTotal);
+
+        assertThat(actualTotal).isCloseTo(expectedTotal, Percentage.withPercentage(1));
     }
 }
