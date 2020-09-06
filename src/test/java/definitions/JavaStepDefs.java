@@ -600,6 +600,7 @@ public class JavaStepDefs {
     public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
 
 
+
     }
 
     @And("I write a function that counts number of each character in a string")
