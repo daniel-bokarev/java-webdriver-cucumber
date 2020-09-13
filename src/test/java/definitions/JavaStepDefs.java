@@ -600,6 +600,7 @@ public class JavaStepDefs {
     public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
 
         String str = "Test";
+        String str2 = "Test";
 
     }
 
