@@ -429,15 +429,13 @@ public class JavaStepDefs {
 //        If a number is in a range of 1..10 - print it saying it is in the range of 1 from 10.
 //        If a number is in the range of 10..20 - print it saying it's in the range of 10..20.
         printRangeOfNumbers(100, 10);
+        printRangeOfNumbers(50, 0);
     }
 
     void printRangeOfNumbers(int x, int y) {
         int dividedX = x / 5;
         int dividedY = y / 5;
         int[] arr = {dividedX, dividedY};
-
-        System.out.println("Result: ");
-
     }
 
     @And("I write a java program to add {int} numbers and it will print addition")
@@ -598,9 +596,16 @@ public class JavaStepDefs {
 
     @And("I write a function that finds if word is palindrome")
     public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
+        String str = "kayak";
+        String str2 = "Daniel";
 
+    }
 
+    boolean isPalindrome(String str) {
+        for (int i = str.length() - 1; i > 0; i++){
 
+        }
+        return false;
     }
 
     @And("I write a function that counts number of each character in a string")
