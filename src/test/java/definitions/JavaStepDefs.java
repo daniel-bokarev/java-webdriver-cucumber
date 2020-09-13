@@ -599,8 +599,6 @@ public class JavaStepDefs {
     @And("I write a function that finds if word is palindrome")
     public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
 
-
-
     }
 
     @And("I write a function that counts number of each character in a string")
