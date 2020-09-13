@@ -598,11 +598,18 @@ public class JavaStepDefs {
 
     @And("I write a function that finds if word is palindrome")
     public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
-
-        String str = "Test";
-        String str2 = "Test";
+        String str = "kayak";
+        String str2 = "Daniel";
 
     }
+
+    boolean isPalindrome(String str) {
+        for (int i = str.length() - 1; i > 0; i++) {
+
+        }
+        return false;
+    }
+
 
     @And("I write a function that counts number of each character in a string")
     public void iWriteAFunctionThatCountsNumberOfEachCharacterInAString() {
