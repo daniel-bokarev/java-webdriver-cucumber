@@ -599,7 +599,7 @@ public class JavaStepDefs {
     @And("I write a function that finds if word is palindrome")
     public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
 
-
+        String str = "Test";
 
     }
 
