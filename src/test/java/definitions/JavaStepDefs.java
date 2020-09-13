@@ -598,16 +598,25 @@ public class JavaStepDefs {
 
     @And("I write a function that finds if word is palindrome")
     public void iWriteAFunctionThatFindsIfWordIsPalindrome() {
+        System.out.println(" ");
         String str = "kayak";
-        String str2 = "Daniel";
-
+        String str2 = "noon";
+        String str3 = "Daniel";
+        System.out.println(isPalindrome(str));
+        System.out.println(isPalindrome(str2));
+        System.out.println(isPalindrome(str3));
     }
 
     boolean isPalindrome(String str) {
-        for (int i = str.length() - 1; i > 0; i++) {
-
+        System.out.println("isPalindrome check for " + str);
+        int j = 0;
+        for (int i = str.length() - 1; i >= 0; i--) {
+            if (str.charAt(i) != str.charAt(j)) {
+                return false;
+            }
+            j++;
         }
-        return false;
+       return true;
     }
 
 
