@@ -619,7 +619,6 @@ public class JavaStepDefs {
        return true;
     }
 
-
     @And("I write a function that counts number of each character in a string")
     public void iWriteAFunctionThatCountsNumberOfEachCharacterInAString() {
         System.out.println("\n" + "Count characters in a string: ");

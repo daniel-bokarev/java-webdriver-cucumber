@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -79,4 +80,49 @@ public class UpsStepDefs {
 
     }
 
+    @When("I check Kayak page")
+    public void iCheckKayakPage() throws InterruptedException {
+        //go to page
+        getDriver().get("https://www.kayak.com/");
+        String actualTitle = getDriver().getTitle();
+        assertThat(actualTitle).isEqualTo("Search Flights, Hotels & Rental Cars | KAYAK");
+
+        //search for flight
+        getDriver().findElement(By.xpath("//a[@href='/flights']")).click();
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='search-form-inner']//div[@data-placeholder='From?']")));
+        getDriver().findElement(By.xpath("//div[@class='search-form-inner']//div[@data-placeholder='From?']")).click();
+        getDriver().findElement(By.xpath("//input[@name='origin'][@placeholder='From?']")).sendKeys("San Diego");
+        getDriver().findElement(By.xpath("//li[@id='ap-SAN/10760']//div[@class='item-info']")).click();
+        getDriver().findElement(By.xpath("//div[@class='search-form-inner']//div[@data-placeholder='To?']")).click();
+        getDriver().findElement(By.xpath("//div[contains(@id, 'destination')]/input[@placeholder='To?']")).sendKeys("San Jose");
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[@id='ap-SJC/11228']//div[@class='item-info']")));
+        getDriver().findElement(By.xpath("//li[@id='ap-SJC/11228']//div[@class='item-info']")).click();
+        getDriver().findElement(By.xpath("//span[contains(@class,'v-c-p centre')]//span[contains(@class,'icon')]//*[local-name()='svg']")).click();
+
+        //click toggle
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='Flights-Results-FlightCovidLoadingModal']")));
+        getDriver().findElement(By.xpath("//button[contains(@id, 'close-button')]")).click();
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(@class,'Flights-Results-FlightQueryPricePrediction two')]")));
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript("arguments[0].click();", getDriver().findElement(By.xpath("//*[contains(@id, 'toggle')][@type='checkbox']")));
+
+        //verify dates
+        assertThat(getDriver().findElement(By.xpath("//span[@class='date']")).getText()).hasToString("Thu 10/22 - Thu 10/29");
+    }
+
+    @When("I check {string} tracking number")
+    public void iCheckTrackingNumber(String tracking) {
+        //go to page
+        getDriver().get("https://www.ups.com/us/en/Home.page");
+
+        //search for tracking
+        getDriver().findElement(By.xpath("//textarea[@id='ups-track--qs']")).sendKeys(tracking);
+        getDriver().findElement(By.xpath("//button[@id='ups-tracking-submit']")).click();
+        getWait().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//section[@class='ups-card']")));
+
+        //print scheduled delivery date
+        String deliveryDay = getDriver().findElement(By.xpath("//span[@id='stApp_scheduledDeliveryDay']")).getText();
+        String deliveryDate = getDriver().findElement(By.xpath("//span[@id='stApp_scheduledDelivery']")).getText();
+        System.out.println("Expected delivery date is " + deliveryDay + ", " + deliveryDate);
+    }
 }

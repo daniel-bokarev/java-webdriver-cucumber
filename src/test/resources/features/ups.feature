@@ -35,3 +35,11 @@
       Then I review all recorded details on the review page
       And I cancel the shipment form
       Then I verify shipment form is reset
+
+    @upsTracking
+    Scenario: Check UPS data
+      When I check "1Z4008YY4290934613" tracking number
+
+    @kayak1
+    Scenario: Only a test
+      When I check Kayak page
