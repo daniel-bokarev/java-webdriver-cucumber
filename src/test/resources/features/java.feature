@@ -44,3 +44,11 @@ Feature: Java feature
     And I write a function that finds if array contains duplicates
     And I write a function that finds if word is palindrome
     And I write a function that counts number of each character in a string
+
+  @java5
+  Scenario: Test
+    When I write stuff
+
+  @java6
+  Scenario: Classes
+    Given I work with classes

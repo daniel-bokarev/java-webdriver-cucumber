@@ -1,7 +1,11 @@
 package definitions;
 
 import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.When;
 import org.apache.commons.lang3.tuple.Pair;
+import pages.Cat;
+import pages.Dog;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -636,4 +640,45 @@ public class JavaStepDefs {
         return count;
     }
 
+    @When("I write stuff")
+    public void iWriteStuff() {
+        //reverse String
+        String str = "Daniel";
+        for (int i = str.length() - 1; i >= 0; i--) {
+            System.out.print(str.charAt(i));
+        }
+
+        //sort arr
+        System.out.println(" ");
+        int[] arr = {7, 8, 5, 1, 5, 10, 0};
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+
+    @Given("I work with classes")
+    public void iWorkWithClasses() {
+        // Cat
+        // Dog
+        Cat cat = new Cat("Tom");
+        System.out.println(cat.getName());
+        cat.walk();
+        cat.sleep();
+        cat.speak();
+        cat.eat("fish");
+
+        Dog dog = new Dog();
+        System.out.println(dog.getName());
+        dog.walk();
+        dog.sleep();
+        dog.speak();
+        dog.eat("meat");
+    }
 }
